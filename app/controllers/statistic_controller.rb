@@ -1,6 +1,6 @@
 class StatisticController < ApplicationController
-  
-  
+
+
   def psql_data data, num=2
     psql_array = []
 
@@ -62,7 +62,19 @@ class StatisticController < ApplicationController
 
     @counter = arr.length
 
-    for_db = psql_data(@data, 20)
+    for_db = psql_data(@data, 30)
+
+    Player.all.each do |p|
+      for_db.each do |d|
+        temp = d['first_name'] + " " + d['second_name']
+        if (p.name == temp)
+          name = p.name
+          player = Player.find_by name: name
+          player.update(goals: d['goals_scored'])
+          player.update(assists: d['assists'])
+        end
+      end
+    end
 
   end
     
