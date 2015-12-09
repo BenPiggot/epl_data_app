@@ -1,0 +1,41 @@
+<div>
+  <h1>Arsenal 2015-2016</h1>
+  <img class="crest" src=<%= @team_data['crestUrl'] %> />
+  <br />
+</div>
+
+<h5>Current Player Value:</h5>
+<p><%= @market %> </p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Nationality</th>
+      <th>Position</th>
+      <th>Market Value</th>
+    </tr>
+  </thead>
+  <% @players.each do |player| %>
+  <tr>
+    <td> <%= link_to player.name, player_path(player) %></td>
+    <td> <%= player.age %></td>
+    <td> <%= player.nationality %></td>
+    <td> <%= player.position %></td>
+    <td> <%= player.marketValue %></td>
+  </tr>
+  <% end %>
+</table>
+
+<hr />
+
+<%= bootstrap_form_for :player, :method => :post do |f| %>
+    <%= f.text_field :name, :placeholder =>"Player name" %>
+    <%= f.text_field :age, :placeholder =>"Age" %>
+    <%= f.text_field :nationality, :placeholder =>"Nationality" %>
+    <%= f.text_field :position, :placeholder =>"Position" %>
+    <%= f.submit "Add a Player", class: "btn btn-default" %>
+<% end %>
+
+<hr />

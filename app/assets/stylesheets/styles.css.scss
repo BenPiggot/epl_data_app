@@ -1,0 +1,48 @@
+// General
+
+a {
+  color: #EF0107
+}
+
+a:hover {
+  color: #9C824A
+}
+
+li {
+  text-decoration: none;
+}
+
+
+// Index 
+
+.crest {
+  width: 6rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+
+
+// bootstrap overrides
+
+.form-control {
+  border: 1px solid #ccc;
+}
+
+.btn-default {
+  background-color: #023474;
+  color: white;
+}
+
+.btn-info {
+  background-color: #EF0107;
+}
+
+.btn-info-outline {
+  color:  #EF0107;
+}
+
+.btn-info-outline:hover {
+  color:  white;
+  background-color: #EF0107;
+}

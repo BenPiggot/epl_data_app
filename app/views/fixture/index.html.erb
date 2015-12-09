@@ -1,0 +1,26 @@
+<h1>2015-16 Results</h1>
+
+ <table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Home Team</th>
+      <th></th>
+      <th></th>
+      <th>Away Team</th>
+      <th></th>
+    </tr>
+  </thead>
+<% @fixtures.each do |f| %>
+  <tr>
+    <td> <%= f['date'] %></td>
+    <td> <%= f['homeTeamName'] %></td>
+    <td> <%= f['result']['goalsHomeTeam'] == -1 ? '-' : f['result']['goalsHomeTeam'] %></td>
+    <td></td>
+    <td> <%= f['awayTeamName'] %></td>
+    <td> <%= f['result']['goalsAwayTeam'] == -1 ? '-' : f['result']['goalsAwayTeam'] %></td>
+  </tr>
+  <% end %>
+</table>
+
+

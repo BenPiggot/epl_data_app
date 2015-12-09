@@ -1,0 +1,19 @@
+<h1><%= @player.name %></h1>
+
+<img src=<%= @photo %>/>
+
+<div>
+  <%= link_to 'Return Home', player_index_path %>
+</div>
+
+<div>
+<%= link_to "", edit_player_path(@player), :class => "fa fa-gears", :data => {toggle: 'modal', target: '#editModal' } %>
+</div>
+
+<div class="modal fade bs-modal-sm" id="editModal">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <%= render "edit" %>
+    </div>
+  </div>
+</div>

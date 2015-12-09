@@ -1,0 +1,19 @@
+<h1>Stats</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <% @data[0].each do |d| %>
+        <th><%= d %> </th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <% @data[1..@data.length].each do |player| %>
+    <tr>
+      <% player.each_with_index do |p, i| %>
+        <td><%= player[i] %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
