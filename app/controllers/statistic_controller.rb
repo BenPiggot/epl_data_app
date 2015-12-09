@@ -1,4 +1,21 @@
 class StatisticController < ApplicationController
+  
+  
+  def psql_data data, num=2
+    psql_array = []
+
+    if (num < 2 || !(data.kind_of?(Array)) )
+      raise 'Invalid input' 
+    end
+
+    data[1..num].each do |d|
+      psql_array << Hash[data[0].zip(d)]
+    end
+
+    return psql_array
+  end
+
+
 
   def index
     http = HTTPClient.new
@@ -44,6 +61,8 @@ class StatisticController < ApplicationController
     @data.unshift(new_header)
 
     @counter = arr.length
+
+    for_db = psql_data(@data, 20)
 
   end
     
