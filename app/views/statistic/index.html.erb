@@ -3,17 +3,27 @@
 <table class="table">
   <thead>
     <tr>
-      <% @data[0].each do |d| %>
-        <th><%= d %> </th>
-      <% end %>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Minutes Played</th>
+      <th>Goals</th>
+      <th>Assists</th>
+      <th>Clean Sheets</th>
+      <th>Goals Conceded</th>
+      <th>Saves</th>
     </tr>
   </thead>
 
-  <% @data[1..@data.length].each do |player| %>
+  <% @players.each do |player| %>
     <tr>
-      <% player.each_with_index do |p, i| %>
-        <td><%= player[i] %></td>
-      <% end %>
+      <td><%= player.name %></td>
+      <td><%= player.position %></td>
+      <td><%= player.minutes %></td>
+      <td><%= player.goals %></td>
+      <td><%= player.assists%></td>
+      <td><%= player.clean_sheets %></td>
+      <td><%= player.goals_conceded %></td>
+      <td><%= player.saves %></td>
     </tr>
   <% end %>
 </table>

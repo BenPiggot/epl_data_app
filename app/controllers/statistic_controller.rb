@@ -72,10 +72,15 @@ class StatisticController < ApplicationController
           player = Player.find_by name: name
           player.update(goals: d['goals_scored'])
           player.update(assists: d['assists'])
+          player.update(minutes: d['minutes'])
+          player.update(clean_sheets: d['clean_sheets'])
+          player.update(saves: d['saves'])
+          player.update(goals_conceded: d['goals_conceded'])
         end
       end
     end
 
+    @players = Player.all
   end
     
 
