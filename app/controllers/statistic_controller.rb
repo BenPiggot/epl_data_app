@@ -81,6 +81,7 @@ class StatisticController < ApplicationController
     end
 
     @players = Player.all
+    
   end
     
 

@@ -31,6 +31,10 @@ gem 'nokogiri'
 
 gem 'mechanize'
 
+gem 'gon'
+
+gem 'd3-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

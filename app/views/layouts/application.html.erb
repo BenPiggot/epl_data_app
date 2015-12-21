@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+
+
 <head>
   <title>Arsenal</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
@@ -7,8 +9,11 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+  <%= Gon::Base.render_data %>
   <%= csrf_meta_tags %>
 </head>
+
+
 <body>
 <nav class="navbar navbar-light bg-faded">
   <a class="navbar-brand" href="#">Arsenal</a>
