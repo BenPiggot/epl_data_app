@@ -84,6 +84,14 @@ class StatisticController < ApplicationController
 
     gon.foobar = @players
   end
-    
+  
+  def data
+    players_data = Player.all
+    respond_to do |format|
+      format.json {
+        render :json => @players = players_data
+      }
+    end
+  end
 
 end

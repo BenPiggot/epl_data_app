@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   post '/' => 'player#create'
 
+  get 'statistic/data', :defaults => { :format => 'json' }
+
   # Example of regular route:
   resources :player, controller: :player
 
