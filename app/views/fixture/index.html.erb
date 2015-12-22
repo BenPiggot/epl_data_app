@@ -13,7 +13,7 @@
   </thead>
 <% @fixtures.each do |f| %>
   <tr>
-    <td> <%= f['date'] %></td>
+    <td> <%= Time.parse(f['date']).strftime("%B %e, %Y, %H:%M") %></td>
     <td> <%= f['homeTeamName'] %></td>
     <td> <%= f['result']['goalsHomeTeam'] == -1 ? '-' : f['result']['goalsHomeTeam'] %></td>
     <td></td>

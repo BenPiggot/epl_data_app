@@ -1,6 +1,6 @@
 $(document).ready(function(){
   $('.see-data').on('click', function() {
-
+    console.log('hi')
     $.ajax({
        type: "GET",
        contentType: "application/json; charset=utf-8",
