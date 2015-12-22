@@ -81,7 +81,8 @@ class StatisticController < ApplicationController
     end
 
     @players = Player.all
-    
+
+    gon.foobar = @players
   end
     
 
