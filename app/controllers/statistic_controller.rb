@@ -83,12 +83,12 @@ class StatisticController < ApplicationController
     @players = Player.all
   end
   
-  
+
   def data
     players_data = Player.all
     respond_to do |format|
       format.json {
-        render :json => @players = players_data
+        render :json => players_data
       }
     end
   end

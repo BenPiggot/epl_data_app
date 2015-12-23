@@ -36,8 +36,16 @@ var bubbleChart = function(payload, selection) {
       }
     })
   }
+
+  else if (selection == 'minutes') {
+    payload.forEach( function(player) {
+      if (player.minutes > 0) {
+        json.players[player.name] = player.minutes
+      }
+    })
+  }
   
-  var diameter = 900;
+  var diameter = 500;
 
   var svg = d3.select('#graph').append('svg')
           .attr('width', diameter)
