@@ -1,5 +1,6 @@
 $(document).ready(function(){
-  $('.see-data').on('click', function() {
+  $('#see-data').on('change', function() {
+    var selection = $(this).val()
 
     $.ajax({
        type: "GET",
@@ -7,24 +8,35 @@ $(document).ready(function(){
        url: '/statistic/data',
        dataType: 'json',
        success: function (data) {
-         bubbleChart(data)
+         bubbleChart(data, selection)
        }
     })
   })
 })
 
 
-var bubbleChart = function(payload) {
+var bubbleChart = function(payload, selection) {
+
+  d3.select("svg").remove();
 
   var json = { "players": {} };
 
-  payload.forEach( function(player) {
-    if (player.goals > 0) {
-      json.players[player.name] = player.goals
-    }
-  })
-  
+  if (selection == 'goals') {
+    payload.forEach( function(player) {
+      if (player.goals > 0) {
+        json.players[player.name] = player.goals
+      }
+    })
+  }
 
+  else if (selection == 'assists') {
+    payload.forEach( function(player) {
+      if (player.assists > 0) {
+        json.players[player.name] = player.assists
+      }
+    })
+  }
+  
   var diameter = 900;
 
   var svg = d3.select('#graph').append('svg')
@@ -73,8 +85,6 @@ var bubbleChart = function(payload) {
   }
   
 }
-
-
 
 
 
