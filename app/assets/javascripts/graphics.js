@@ -45,7 +45,7 @@ var bubbleChart = function(payload, selection) {
     })
   }
   
-  var diameter = 500;
+  var diameter = 600;
 
   var svg = d3.select('#graph').append('svg')
           .attr('width', diameter)
@@ -72,13 +72,14 @@ var bubbleChart = function(payload, selection) {
       .attr('class', function(d) { return d.className; });
 
   vis.append('text')  
-      .attr('transform', function(d) { return 'translate(' + (d.x - 80)+ ',' + (d.y) + ')'; })
+      .attr('transform', function(d) { return 'translate(' + (d.x)+ ',' + (d.y) + ')'; })
       .style("font-family", "Helvetica Neue")
       .style("color", "black")
       .style('font-size', '1rem')
+      .style("text-anchor", "middle")
       .text(function(d){
         var goalText = d.size == 1 ? ' goal' : ' goals'
-        return d.name + ', ' + d.size + goalText
+        return d.name 
       })
   
   function processData(data) {
