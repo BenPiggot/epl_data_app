@@ -66,8 +66,8 @@ class StatisticController < ApplicationController
 
     Player.all.each do |p|
       for_db.each do |d|
-        temp = d['first_name'] + " " + d['second_name']
-        if (p.name == temp)
+        temp = d['second_name']
+        if (p.name.split(' ')[1] == temp)
           name = p.name
           player = Player.find_by name: name
           player.update(goals: d['goals_scored'])
