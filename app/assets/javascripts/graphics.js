@@ -59,7 +59,12 @@ var bubbleChart = function(payload, selection) {
   // generate data with calculated layout values
   var nodes = bubble.nodes(processData(json))
             .filter(function(d) { return !d.children; }); // filter out the outer bubble
- 
+
+  // var force = d3.layout.force().charge(100)
+  //             .size([diameter, diameter])
+  //             .nodes(nodes)
+  //             .on('tick', forceTick)
+
   var vis = svg.selectAll('g')
           .data(nodes)
           .enter().append('g')
@@ -81,6 +86,9 @@ var bubbleChart = function(payload, selection) {
         var goalText = d.size == 1 ? ' goal' : ' goals'
         return d.name 
       })
+  
+  // force.start()
+
   
   function processData(data) {
     var obj = data.players;
