@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get 'statistic/data', :defaults => { :format => 'json' }
 
+  get 'graphic/data', :defaults => { :format => 'json' }
+
   # Example of regular route:
   resources :player, controller: :player
 
