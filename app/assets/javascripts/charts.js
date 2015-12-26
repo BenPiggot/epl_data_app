@@ -20,4 +20,14 @@ function makeChart(data) {
       .append('div')
       .attr('class', 'row names')
       .html(function(d, i) { return d.name })
+
+  d3.select('svg')
+      .selectAll('rect')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('width', 10)
+      .attr('height', function(d) { return d.goals * 10})
+      .attr('x', function(d, i ) { return i * 10 })
+      .attr('y', function(d, i) { return 100 - (d.goals * 10) } )
 }
