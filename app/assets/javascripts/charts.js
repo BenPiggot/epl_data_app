@@ -7,44 +7,59 @@ $(document).ready(function(){
      dataType: 'json',
      success: function (data) {
        makeCharts(data)
-     }  
+     } 
   })
 })
 
 
 function makeCharts(data) {
 
-  d3.select('.container').selectAll('div.names')
-      .data(data)
-      .enter()
-      .append('div')
-      .attr('class', 'row names')
-      .html(function(d, i) { return d.name })
+  var maxValue = d3.max(data, function(d) {return d.assists})
 
-  d3.select('svg')
-      .selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('width', 10)
-      .attr('height', function(d) { return d.goals * 10})
-      .attr('x', function(d, i ) { return i * 10 })
-      .attr('y', function(d, i) { return 100 - (d.goals * 10) } )
-  
+  var colorRamp = d3.scale.linear()
+                  .domain([0, maxValue])
+                  .interpolate(d3.interpolateHsl)
+                  .range(['white', 'red'])
+
+
   var plot =  d3.select('#scatterplot')
     .selectAll('g')
     .data(data)
     .enter()
     .append('g')
     .attr('transform', function(d) {
-      return "translate(" + (d.minutes/10) + "," + (120 - (d.goals * 10)) + ")";
+      return "translate(" + (d.minutes/4) + "," + (300 - (d.goals * 25)) + ")";
     })
 
   plot.append('circle')
-    .attr('r', function(d) {return d.goals * 2})
+    .attr('r', function(d) {return d.goals * 5})
     .attr('fill', '#ddd')
+    .on('mouseover', comparePosition)
+    .on('mouseout', unHighlight)
 
   plot.append('text')
     .text(function(d) { if (d.goals > 0) return d.name })
-    .attr('font-size', '8px')
+    .attr('font-size', '14px')
 }
+
+
+// Helper functions 
+
+function highlight() {
+  $(this).css('fill', 'pink')
+}
+
+function unHighlight() {
+  d3.selectAll('circle').style('fill', '#ddd')
+}
+
+function comparePosition(d, i) {
+  var positionColor = d3.rgb('pink')
+
+  d3.selectAll('circle').style('fill', function(p) {
+    return p.position == d.position ? 'pink' : '#ddd'
+  })
+}
+
+
+
