@@ -36,6 +36,7 @@ function makeCharts(data) {
     .attr('fill', '#ddd')
     .on('mouseover', comparePosition)
     .on('mouseout', unHighlight)
+    .on('click', displayModal)
 
   plot.append('text')
     .text(function(d) { if (d.goals > 0) return d.name })
@@ -60,6 +61,24 @@ function comparePosition(d, i) {
     return p.position == d.position ? 'pink' : '#ddd'
   })
 }
+
+function displayModal(d) {
+  $('.modal').show()
+  $('.background-gray').show()
+  d3.selectAll('td.data')
+    .data([ d3.values(d)[1], d3.values(d)[6] ])
+    .html(function(p) {
+      return p;
+    })
+}
+
+
+$(document).ready( function() {
+  $('.close-modal').on('click', function() {
+    $('.modal').hide();
+    $('.background-gray').hide();
+  })
+})
 
 
 
