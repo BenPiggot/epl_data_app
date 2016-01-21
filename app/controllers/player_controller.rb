@@ -33,6 +33,7 @@ class PlayerController < ApplicationController
   end
 
   def show
+    p params[:id]
     @player = Player.find(params[:id])
 
     list = flickr.photos.search :text => @player.name, :sort => "relevance"

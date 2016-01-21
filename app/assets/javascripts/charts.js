@@ -28,11 +28,11 @@ function makeCharts(data) {
     .enter()
     .append('g')
     .attr('transform', function(d) {
-      return "translate(" + (d.minutes/4) + "," + (300 - (d.goals * 25)) + ")";
+      return "translate(" + (d.minutes/4) + "," + (375 - (d.goals * 25)) + ")";
     })
 
   plot.append('circle')
-    .attr('r', function(d) {return d.goals * 5})
+    .attr('r', function(d) { return d.goals * 5 })
     .attr('fill', '#ddd')
     .on('mouseover', comparePosition)
     .on('mouseout', unHighlight)
