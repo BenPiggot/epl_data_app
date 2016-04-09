@@ -13,15 +13,6 @@ $(document).ready(function(){
 
 
 function makeCharts(data) {
-
-  var maxValue = d3.max(data, function(d) {return d.assists})
-
-  var colorRamp = d3.scale.linear()
-                  .domain([0, maxValue])
-                  .interpolate(d3.interpolateHsl)
-                  .range(['white', 'red'])
-
-
   var plot =  d3.select('#scatterplot')
     .selectAll('g')
     .data(data)
@@ -41,6 +32,42 @@ function makeCharts(data) {
   plot.append('text')
     .text(function(d) { if (d.goals > 0) return d.name })
     .attr('font-size', '14px')
+
+  var xExtent = d3.extent(data, function(d) {
+    return d.minutes;
+  })
+
+  var yExtent = d3.extent(data, function(d) {
+    return d.goals;
+  })
+
+  var xScale = d3.scale.linear().domain(xExtent).range([0, 750]);
+  var yScale = d3.scale.linear().domain(yExtent).range([360, 0]);
+
+  var yAxis = d3.svg.axis().scale(yScale).orient('left')
+  d3.select('#scatterplot').append('g').attr('id', 'yAxis').call(yAxis);
+
+  var xAxis = d3.svg.axis().scale(xScale).orient('bottom');
+  d3.select('#scatterplot').append('g').attr('id', 'xAxis').call(xAxis);
+  d3.selectAll('#xAxis').attr('transform', 'translate(0, 360)');
+
+  d3.selectAll('path.domain').style('fill', 'none').style('stroke', 'black');
+
+  d3.select('#scatterplot').append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "middle")
+    .attr("x", 400)
+    .attr("y", 405)
+    .text("Minutes played")
+    .style('font-size', '14px')
+
+  d3.select('#scatterplot').append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "middle")
+    .attr("x", -45)
+    .attr("y", 200)
+    .text("Goals")
+    .style('font-size', '14px')
 }
 
 
@@ -63,7 +90,7 @@ function comparePosition(d, i) {
 }
 
 function displayModal(d) {
-  $('.modal').show()
+  $('.stat-modal').show()
   $('.background-gray').show()
   d3.selectAll('td.data')
     .data([ d3.values(d)[1], d3.values(d)[6] ])
@@ -75,7 +102,7 @@ function displayModal(d) {
 
 $(document).ready( function() {
   $('.close-modal').on('click', function() {
-    $('.modal').hide();
+    $('.stat-modal').hide();
     $('.background-gray').hide();
   })
 })
