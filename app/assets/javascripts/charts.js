@@ -29,7 +29,7 @@ function makeCharts(data) {
     .enter()
     .append('g')
     .attr('transform', function(d) {
-      return "translate(" + (d.minutes/4) + "," + (375 - (d.goals * 25)) + ")";
+      return "translate(" + (d.minutes/4) + "," + (360 - (d.goals * 30)) + ")";
     })
 
   plot.append('circle')
