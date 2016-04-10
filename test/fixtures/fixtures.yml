@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2016-04-09 21:15:19
+  opponent: MyString
+  home_team: MyString
+  away_team: MyString
+  home_team_goals: 1
+  away_team_goals: 1
+
+two:
+  date: 2016-04-09 21:15:19
+  opponent: MyString
+  home_team: MyString
+  away_team: MyString
+  home_team_goals: 1
+  away_team_goals: 1
