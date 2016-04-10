@@ -41,7 +41,8 @@ function makeCharts(data) {
 
   plot.append('text')
     .text(function(d) { if (d.goals > 0) return d.name })
-    .attr('font-size', '14px')
+    .attr('transform', 'translate(-32, 0)')
+    .style('font-size', '11px')
 
   var xExtent = d3.extent(data, function(d) {
     return d.minutes;
