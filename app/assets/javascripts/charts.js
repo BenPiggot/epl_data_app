@@ -9,6 +9,16 @@ $(document).ready(function(){
        makeCharts(data)
      } 
   })
+
+  $.ajax({
+    type: 'GET',
+    contentType: "application/json; charset=utf-8",
+    url: '/fixture/data',
+    dataType: 'json',
+    success: function(data) {
+      console.log(data)
+    }
+  })
 })
 
 

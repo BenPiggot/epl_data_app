@@ -23,4 +23,13 @@ class FixtureController < ApplicationController
     @fixtures = @team_data['fixtures']
   end 
 
+  def data
+    fixture_data = Fixture.all
+    respond_to do |format|
+      format.json {
+        render :json => fixture_data
+      }
+    end
+  end
+
 end
