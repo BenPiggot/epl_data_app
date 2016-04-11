@@ -17,8 +17,6 @@ $(document).ready(function(){
     dataType: 'json',
     success: function(data) {
       console.log(data)
-      console.log(averageGoals(data))
-      debugger
       makeLineChart(data)
     }
   })
@@ -178,7 +176,6 @@ function averageGoals(data) {
     }
   }
 
-  console.log(goals)
   return goals.reduce( function(prev, curr) {
     return prev + curr;
   })/goals.length;
