@@ -172,18 +172,13 @@ function averageGoals(data) {
       return d.away_team_goals
   })
 
-  for (var i = 0; i < goals.length; i++) {
+  for (var i = goals.length; i > 0; i--) {
     if (goals[i] == -1) {
       goals.splice(i, 1)
     }
   }
 
-  for (var i = 0; i < goals.length; i++) {
-    if (goals[i] == -1) {
-      goals.splice(i, 1)
-    }
-  }
-
+  console.log(goals)
   return goals.reduce( function(prev, curr) {
     return prev + curr;
   })/goals.length;
