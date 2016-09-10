@@ -84,7 +84,7 @@ function makeCharts(data) {
 
 
 function makeLineChart(data) {
-  var xScale = d3.scale.linear().domain([0, data.length]).range([0, 750]);
+  var xScale = d3.scale.linear().domain([0, data.length ]).range([0, 750]);
   var yScale = d3.scale.linear().domain([0, 7]).range([360, 0]);
 
   var xAxis = d3.svg.axis()
@@ -107,7 +107,7 @@ function makeLineChart(data) {
     .attr("text-anchor", "middle")
     .attr("x", 400)
     .attr("y", 405)
-    .text("Matchday, 2015-2016 Season")
+    .text("Matchday, 2016-17 Season")
     .style('font-size', '14px')
 
   d3.select('#linechart').append("text")
@@ -129,25 +129,32 @@ function makeLineChart(data) {
         else 
           return 3
       })
-      .attr('cx', function(d) { return xScale(d.id)})
+      .attr('cx', function(d) { return xScale(d.id - 90)})
       .attr('cy', function(d) { 
-          if (d.home_team == 'Arsenal FC')
-            return yScale(d.home_team_goals)
-          else 
-            return yScale(d.away_team_goals)
+          if (d.home_team == 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            console.log(goals)
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
         }) 
       .style('fill', 'black')
 
   var drawLines = d3.svg.line()
         .x(function(d) { 
-          console.log(d.id)
-          return xScale(d.id) 
+          return xScale(d.id - 90) 
         })
         .y(function(d) { 
-          if (d.home_team == 'Arsenal FC')
-            return yScale(d.home_team_goals)
-          else 
-            return yScale(d.away_team_goals)
+          if (d.home_team == 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            console.log(goals)
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
         });
 
   d3.select('#linechart')
