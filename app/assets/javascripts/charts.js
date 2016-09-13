@@ -95,7 +95,7 @@ function makeLineChart(data, id) {
 
   var yAxis = d3.svg.axis()
                 .scale(yScale)
-                .orient('right')
+                .orient('left')
 
   d3.select('#linechart').append('g').attr('id', 'yAxis2').call(yAxis);
 
@@ -144,8 +144,6 @@ function makeLineChart(data, id) {
 
   var drawLines = d3.svg.line()
         .x(function(d) { 
-          console.log(d)
-          debugger
           return xScale(d.id - id) 
         })
         .y(function(d) { 
