@@ -16,8 +16,8 @@ $(document).ready(function(){
     url: '/fixture/data',
     dataType: 'json',
     success: function(data) {
-      console.log(data)
-      makeLineChart(data)
+      data.sort(function(a, b) { return a.id - b.id })
+      makeLineChart(data, data[0].id)
     }
   })
 })
@@ -83,7 +83,7 @@ function makeCharts(data) {
 }
 
 
-function makeLineChart(data) {
+function makeLineChart(data, id) {
   var xScale = d3.scale.linear().domain([0, data.length ]).range([0, 750]);
   var yScale = d3.scale.linear().domain([0, 7]).range([360, 0]);
 
@@ -129,7 +129,7 @@ function makeLineChart(data) {
         else 
           return 3
       })
-      .attr('cx', function(d) { return xScale(d.id - 90)})
+      .attr('cx', function(d) { return xScale(d.id - id)})
       .attr('cy', function(d) { 
           if (d.home_team == 'Arsenal FC') {
             var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
@@ -144,7 +144,9 @@ function makeLineChart(data) {
 
   var drawLines = d3.svg.line()
         .x(function(d) { 
-          return xScale(d.id - 90) 
+          console.log(d)
+          debugger
+          return xScale(d.id - id) 
         })
         .y(function(d) { 
           if (d.home_team == 'Arsenal FC') {
