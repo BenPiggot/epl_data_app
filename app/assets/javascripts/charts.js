@@ -22,6 +22,113 @@ $(document).ready(function(){
   })
 })
 
+function makeLineChart(data, id) {
+  var xScale = d3.scale.linear().domain([0, data.length ]).range([0, 750]);
+  var yScale = d3.scale.linear().domain([0, 7]).range([360, 0]);
+
+  var xAxis = d3.svg.axis()
+                .scale(xScale)
+                .orient('bottom')
+
+  d3.select('#linechart').append('g').attr('id', 'xAxis2').call(xAxis);
+
+  var yAxis = d3.svg.axis()
+                .scale(yScale)
+                .orient('left')
+
+  d3.select('#linechart').append('g').attr('id', 'yAxis2').call(yAxis);
+
+  d3.selectAll('#xAxis2').attr('transform', 'translate(0, 360)');
+  d3.selectAll('path.domain').style('fill', 'none').style('stroke', 'black');
+
+  d3.select('#linechart').append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "middle")
+    .attr("x", 400)
+    .attr("y", 405)
+    .text("Matchday, 2016-17 Season")
+    .style('font-size', '14px')
+
+  d3.select('#linechart').append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "middle")
+    .attr("x", -45)
+    .attr("y", 200)
+    .text("Goals")
+    .style('font-size', '14px')
+
+  d3.select('#linechart').selectAll('circle.fixtures')
+      .data(data)
+      .enter()
+      .append('circle')
+      .attr('class', 'fixtures')
+      .attr('r', function(d) {
+        if (d.home_team_goals == -1 )
+          return 0
+        else 
+          return 3
+      })
+      .attr('cx', function(d) { return xScale(d.id - id)})
+      .attr('cy', function(d) { 
+          if (d.home_team == 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            console.log(goals)
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
+        }) 
+      .style('fill', '#EF0107')
+
+  var drawLines = d3.svg.line()
+        .x(function(d) { 
+          return xScale(d.id - id) 
+        })
+        .y(function(d) { 
+          if (d.home_team == 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
+        });
+
+  var drawLinesOpponent = d3.svg.line()
+        .x(function(d) {
+          return xScale(d.id - id)
+        })
+        .y(function(d) {
+          if (d.home_team != 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
+        });
+
+  drawLines.interpolate("cardinal");
+  drawLinesOpponent.interpolate("cardinal");
+
+  d3.select('#linechart')
+      .append('path')
+      .attr('d', drawLines( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
+      .attr('fill', 'none')
+      .attr('stroke', '#EF0107')
+      .attr('stroke-width', 2);
+
+  d3.select('#linechart')
+      .append('path')
+      .attr('d', drawLinesOpponent( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
+      .attr('fill', 'none')
+      .attr('stroke', '#bbb')
+      .attr('stroke-width', 2);
+
+}
+
+
 
 function makeCharts(data) {
   var plot =  d3.select('#scatterplot')
@@ -80,110 +187,6 @@ function makeCharts(data) {
     .attr("y", 200)
     .text("Goals")
     .style('font-size', '14px')
-}
-
-
-function makeLineChart(data, id) {
-  var xScale = d3.scale.linear().domain([0, data.length ]).range([0, 750]);
-  var yScale = d3.scale.linear().domain([0, 7]).range([360, 0]);
-
-  var xAxis = d3.svg.axis()
-                .scale(xScale)
-                .orient('bottom')
-
-  d3.select('#linechart').append('g').attr('id', 'xAxis2').call(xAxis);
-
-  var yAxis = d3.svg.axis()
-                .scale(yScale)
-                .orient('left')
-
-  d3.select('#linechart').append('g').attr('id', 'yAxis2').call(yAxis);
-
-  d3.selectAll('#xAxis2').attr('transform', 'translate(0, 360)');
-  d3.selectAll('path.domain').style('fill', 'none').style('stroke', 'black');
-
-  d3.select('#linechart').append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "middle")
-    .attr("x", 400)
-    .attr("y", 405)
-    .text("Matchday, 2016-17 Season")
-    .style('font-size', '14px')
-
-  d3.select('#linechart').append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "middle")
-    .attr("x", -45)
-    .attr("y", 200)
-    .text("Arsenal Goals")
-    .style('font-size', '14px')
-
-  d3.select('#linechart').selectAll('circle.fixtures')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('class', 'fixtures')
-      .attr('r', function(d) {
-        if (d.home_team_goals == -1 )
-          return 0
-        else 
-          return 3
-      })
-      .attr('cx', function(d) { return xScale(d.id - id)})
-      .attr('cy', function(d) { 
-          if (d.home_team == 'Arsenal FC') {
-            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
-            console.log(goals)
-            return yScale(goals)
-          } else {
-            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
-            return yScale(goals)
-          }
-        }) 
-      .style('fill', '#EF0107')
-
-  var drawLines = d3.svg.line()
-        .x(function(d) { 
-          return xScale(d.id - id) 
-        })
-        .y(function(d) { 
-          if (d.home_team == 'Arsenal FC') {
-            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
-            return yScale(goals)
-          } else {
-            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
-            return yScale(goals)
-          }
-        });
-
-  var drawLinesOpponent = d3.svg.line()
-        .x(function(d) {
-          return xScale(d.id - id)
-        })
-        .y(function(d) {
-          if (d.home_team != 'Arsenal FC') {
-            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
-            return yScale(goals)
-          } else {
-            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
-            return yScale(goals)
-          }
-        });
-
-  d3.select('#linechart')
-      .append('path')
-      .attr('d', drawLines( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
-      .attr('fill', 'none')
-      .attr('stroke', '#EF0107')
-      .attr('stroke-width', 2);
-
-  d3.select('#linechart')
-      .append('path')
-      .attr('d', drawLinesOpponent( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
-      .attr('fill', 'none')
-      .attr('stroke', '#777')
-      .attr('stroke-width', 2);
-
 }
 
 
