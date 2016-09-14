@@ -140,7 +140,7 @@ function makeLineChart(data, id) {
             return yScale(goals)
           }
         }) 
-      .style('fill', 'black')
+      .style('fill', '#EF0107')
 
   var drawLines = d3.svg.line()
         .x(function(d) { 
@@ -149,7 +149,20 @@ function makeLineChart(data, id) {
         .y(function(d) { 
           if (d.home_team == 'Arsenal FC') {
             var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
-            console.log(goals)
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
+        });
+
+  var drawLinesOpponent = d3.svg.line()
+        .x(function(d) {
+          return xScale(d.id - id)
+        })
+        .y(function(d) {
+          if (d.home_team != 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
             return yScale(goals)
           } else {
             var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
@@ -161,7 +174,14 @@ function makeLineChart(data, id) {
       .append('path')
       .attr('d', drawLines( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
       .attr('fill', 'none')
-      .attr('stroke', 'black')
+      .attr('stroke', '#EF0107')
+      .attr('stroke-width', 2);
+
+  d3.select('#linechart')
+      .append('path')
+      .attr('d', drawLinesOpponent( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
+      .attr('fill', 'none')
+      .attr('stroke', '#777')
       .attr('stroke-width', 2);
 
 }
