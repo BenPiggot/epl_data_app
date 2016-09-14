@@ -57,30 +57,6 @@ function makeLineChart(data, id) {
     .text("Goals")
     .style('font-size', '14px')
 
-  d3.select('#linechart').selectAll('circle.fixtures')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('class', 'fixtures')
-      .attr('r', function(d) {
-        if (d.home_team_goals == -1 )
-          return 0
-        else 
-          return 3
-      })
-      .attr('cx', function(d) { return xScale(d.id - id)})
-      .attr('cy', function(d) { 
-          if (d.home_team == 'Arsenal FC') {
-            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
-            console.log(goals)
-            return yScale(goals)
-          } else {
-            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
-            return yScale(goals)
-          }
-        }) 
-      .style('fill', '#EF0107')
-
   var drawLines = d3.svg.line()
         .x(function(d) { 
           return xScale(d.id - id) 
@@ -109,6 +85,43 @@ function makeLineChart(data, id) {
           }
         });
 
+  var arsenalArea = d3.svg.area()
+        .x(function(d) {
+          return xScale(d.id - id)
+        })
+        .y(function(d) {
+          if (d.home_team == 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
+        })
+        .y0(function(d) {
+          return yScale(0)
+        })
+        .interpolate("cardinal");
+
+
+  var opponentArea = d3.svg.area()
+        .x(function(d) {
+          return xScale(d.id - id)
+        })
+        .y(function(d) {
+          if (d.home_team != 'Arsenal FC') {
+            var goals = d.home_team_goals == -1 ? 0 : d.home_team_goals;
+            return yScale(goals)
+          } else {
+            var goals = d.away_team_goals == -1 ? 0 : d.away_team_goals;
+            return yScale(goals)
+          }
+        })
+        .y0(function(d) {
+          return yScale(0)
+        })
+        .interpolate("cardinal");
+
   drawLines.interpolate("cardinal");
   drawLinesOpponent.interpolate("cardinal");
 
@@ -125,6 +138,22 @@ function makeLineChart(data, id) {
       .attr('fill', 'none')
       .attr('stroke', '#bbb')
       .attr('stroke-width', 2);
+
+  d3.select('#linechart')
+      .append('path')
+      .attr('d', arsenalArea( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
+      .attr('fill', '#EF0107')
+      .attr('stroke', '#EF0107')
+      .attr('stroke-width', 2)
+      .style('opacity', 0.5);
+
+  d3.select('#linechart')
+      .append('path')
+      .attr('d', opponentArea( data.sort( function(a, b) { return new Date(a.date) - new Date(b.date); })) )
+      .attr('fill', '#bbb')
+      .attr('stroke', '#bbb')
+      .attr('stroke-width', 2)
+      .style('opacity', 0.5)
 
 }
 
